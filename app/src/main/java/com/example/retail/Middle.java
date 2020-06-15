@@ -11,9 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.retail.model.ItemModel;
+import com.example.retail.ui.DatabaseHelper;
 
 public class Middle extends AppCompatActivity {
-
+    DatabaseHelper myDb;
     private TextView name1;
     private TextView desc1;
     private TextView price;
@@ -24,8 +25,10 @@ public class Middle extends AppCompatActivity {
     private Cart c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle);
+        myDb = new DatabaseHelper(this);
         final Intent i1=getIntent();
         final ItemModel items=(ItemModel)i1.getSerializableExtra("items");
         name1= findViewById(R.id.name1);
@@ -54,6 +57,11 @@ public class Middle extends AppCompatActivity {
             public void onClick(View v) {
 
                MainActivity.a.add(items);
+                boolean isInserted = myDb.insertData(items);
+                if(isInserted =true)
+                    Toast.makeText(Middle.this,"Data Inserted",Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(Middle.this,"Data not Inserted",Toast.LENGTH_LONG).show();
 
             }
         });

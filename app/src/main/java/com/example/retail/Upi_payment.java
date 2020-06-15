@@ -28,7 +28,6 @@ public class Upi_payment extends AppCompatActivity {
     Button send;
     String TAG ="main";
     final int UPI_PAYMENT = 0;
-    private Soundify soundify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,20 +37,9 @@ public class Upi_payment extends AppCompatActivity {
         note = (EditText)findViewById(R.id.note);
         name = (EditText) findViewById(R.id.name);
         upivirtualid =(EditText) findViewById(R.id.upi_id);
-        soundify = new Soundify(this);
 
-       try {
-           soundify.startListening();
-           soundify.setSoundifyListener((data) -> {
-               String stringData = Soundify.bytesToString(data);
-               if (stringData.length() < 50) {
-                   System.out.println("inside listener");
-               }
-           });
-       }catch (Exception e)
-       {
-           System.out.println(e.getMessage());
-       }
+
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +55,8 @@ public class Upi_payment extends AppCompatActivity {
                 }else{
                    // payUsingUpi(name.getText().toString(), upivirtualid.getText().toString(),
                             //note.getText().toString(), amount.getText().toString());
-                    sendMessage();
+                    payUsingUpi(name.getText().toString(), upivirtualid.getText().toString(),
+                            note.getText().toString(), amount.getText().toString());
                 }
 
 
@@ -99,58 +88,7 @@ public class Upi_payment extends AppCompatActivity {
             Toast.makeText(Upi_payment.this,"No UPI app found, please install one to continue",Toast.LENGTH_SHORT).show();
         }
     }
-    public void sendMessage() {
-        try{
-            String msg =amount.getText().toString();
-            String g="naveen";
-            byte[] bytes = Soundify.stringToBytes(g);
-            soundify.send(bytes);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(soundify != null) {
-            try {
-                soundify.startListening();
-            } catch (Exception e) {
-                //AndroidUtils.showToast(this, e);
-            }
-        }
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            soundify.stopListening();
-        } catch (Exception e) {
-           // AndroidUtils.showToast(this, e);
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        try {
-            soundify.stopListening();
-        } catch (Exception e) {
-           // AndroidUtils.showToast(this, e);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            soundify.stopListening();
-        } catch (Exception e) {
-           // AndroidUtils.showToast(this, e);
-        }
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

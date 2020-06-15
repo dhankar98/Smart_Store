@@ -26,7 +26,7 @@ public class qrscanner extends AppCompatActivity implements ResultHandler, Seria
     @Override
     public void handleResult(Result result) {
         ProcessRawResult(result.getText());
-        MainActivity.welcome.setText(result.getText());
+
         Intent qr=new Intent(qrscanner.this,Middle.class);
         qr.putExtra("items",item);
         startActivity(qr);

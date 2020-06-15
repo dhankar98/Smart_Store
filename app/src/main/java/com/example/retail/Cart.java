@@ -12,11 +12,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.retail.model.ItemModel;
+import com.example.retail.ui.DatabaseHelper;
 
 import java.util.ArrayList;
 
 public class Cart extends AppCompatActivity {
-
+    DatabaseHelper dbhelper1;
     public static ArrayList<ItemModel> a1;
     ListView listview1;
    private Button Payments;
@@ -26,13 +27,10 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         listview1=(ListView)findViewById(R.id.listview);
 
-        a1=new ArrayList<ItemModel>();
-        a1=MainActivity.a;
+        dbhelper1=new DatabaseHelper(this);
         Intent i9=getIntent();
 
-        ItemModel item10=new ItemModel("ds","sda","q","ee");
-        a1.add(item10);
-        ItemModel itemCart = (ItemModel)getIntent().getSerializableExtra("itemCart");
+        a1=dbhelper1.getAllData();
 
 
 
